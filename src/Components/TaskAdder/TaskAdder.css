@@ -1,0 +1,36 @@
+.taskadder-container {
+  padding: 20px;
+  background-color: #ffffff;
+  width: 100%;
+  position: fixed;
+  text-align: center;
+}
+h1 {
+  font-family: "Hind", sans-serif;
+
+  text-align: center;
+  color: #073b4c;
+  font-size: 3rem;
+}
+.todo-styling {
+  color: #118ab2;
+}
+/* .input-container {
+} */
+.add-task-input {
+  padding: 10px 20px;
+  width: 30%;
+  border-radius: 50px;
+  border: 1px solid #073b4c;
+  outline: none;
+}
+.submit-btn {
+  margin-left: 4px;
+  border-radius: 50%;
+  padding: 10px 11px;
+  background-color: #118ab2;
+  border: none;
+  color: white;
+  outline: none;
+  cursor: pointer;
+}
