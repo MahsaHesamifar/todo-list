@@ -8,6 +8,11 @@ class TaskAdder extends React.Component {
   };
   onFormSubmit = e => {
     e.preventDefault();
+    this.props.onSubmit({
+      taskTitle: this.state.taskInput,
+      checked: false,
+      id: Math.random() * 100,
+    });
     this.setState({ taskInput: "" });
   };
   render() {
@@ -17,11 +22,7 @@ class TaskAdder extends React.Component {
           <span className="todo-styling">TODO</span> List
         </h1>
 
-        <form
-          action=""
-          className="input-container"
-          onSubmit={this.onFormSubmit}
-        >
+        <form className="input-container" onSubmit={this.onFormSubmit}>
           <input
             className="add-task-input"
             type="text"
@@ -31,8 +32,13 @@ class TaskAdder extends React.Component {
           />
 
           <button type="submit" className="submit-btn">
-            <i class="fas fa-plus" aria-hidden="true"></i>
+            <i className="fas fa-plus" aria-hidden="true"></i>
           </button>
+          <select name="filter" id="filter" className="filter">
+            <option value="all">All</option>
+            <option value="finished">Finished</option>
+            <option value="unfinished">Unfinished</option>
+          </select>
         </form>
       </div>
     );
