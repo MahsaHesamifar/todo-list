@@ -4,15 +4,19 @@ import "./TodoList.css";
 
 class TodoList extends React.Component {
   render() {
+    const { filteredTodos, setTodos, todos } = this.props;
     return (
       <div className="todo-container">
-        {this.props.todos.map(todo => {
+        {filteredTodos.map(todo => {
           return (
             <Todo
-              taskTitle={todo.taskTitle}
-              checked={todo.checked}
-              id={todo.id}
+              todos={todos}
+              setTodos={setTodos}
+              todo={todo}
               key={todo.id}
+              // taskTitle={todo.taskTitle}
+              // checked={todo.checked}
+              // id={todo.id}
             />
           );
         })}

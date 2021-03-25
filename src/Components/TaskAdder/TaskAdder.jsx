@@ -2,17 +2,30 @@ import React from "react";
 import "./TaskAdder.css";
 
 class TaskAdder extends React.Component {
+  //event handler
+  onFilterChange = e => {
+    console.log(e.target.value);
+    this.props.onFilterChange(e.target.value);
+  };
   state = { taskInput: "" };
   onInputChange = e => {
     this.setState({ taskInput: e.target.value });
   };
   onFormSubmit = e => {
     e.preventDefault();
-    this.props.onSubmit({
-      taskTitle: this.state.taskInput,
-      checked: false,
-      id: Math.random() * 100,
-    });
+    // this.props.onSubmit({
+    //   taskTitle: this.state.taskInput,
+    //   checked: false,
+    //   id: Math.random() * 100,
+    // });
+    this.props.onSubmit([
+      ...this.props.todos,
+      {
+        taskTitle: this.state.taskInput,
+        checked: false,
+        id: Math.random() * 100,
+      },
+    ]);
     this.setState({ taskInput: "" });
   };
   render() {
@@ -34,7 +47,13 @@ class TaskAdder extends React.Component {
           <button type="submit" className="submit-btn">
             <i className="fas fa-plus" aria-hidden="true"></i>
           </button>
-          <select name="filter" id="filter" className="filter">
+          <select
+            value={this.props.selectedOption}
+            onChange={this.onFilterChange}
+            name="filter"
+            id="filter"
+            className="filter"
+          >
             <option value="all">All</option>
             <option value="finished">Finished</option>
             <option value="unfinished">Unfinished</option>
