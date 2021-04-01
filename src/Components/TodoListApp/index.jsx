@@ -50,13 +50,15 @@ class TodoListApp extends Component {
     switch (this.state.selectedOption) {
       case "finished":
         this.setState({
-          filteredTodos: this.state.todos.filter(item => item.checked === true),
+          filteredTodos: this.state.todos.filter(
+            item => item.isChecked === true
+          ),
         });
         break;
       case "unfinished":
         this.setState({
           filteredTodos: this.state.todos.filter(
-            item => item.checked === false
+            item => item.isChecked === false
           ),
         });
         break;
