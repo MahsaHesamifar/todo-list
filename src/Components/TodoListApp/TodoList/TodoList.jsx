@@ -10,10 +10,11 @@ class TodoList extends React.Component {
         {filteredTodos.map(todo => {
           return (
             <Todo
+              token={this.props.token}
               todos={todos}
               setTodos={setTodos}
               todo={todo}
-              key={todo.id}
+              key={todo._id}
               // taskTitle={todo.taskTitle}
               // checked={todo.checked}
               // id={todo.id}

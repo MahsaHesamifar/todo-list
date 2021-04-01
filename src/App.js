@@ -1,62 +1,51 @@
-import React from "react";
-import TaskAdder from "./Components/TaskAdder/TaskAdder";
-import "./App.css";
-import TodoList from "./Components/TodoList/TodoList";
+import React, { Component } from "react";
+import { Route, Switch } from "react-router-dom";
+import AuthPage from "./pages/AuthPage";
+import Nav from "./Components/Nav/Nav";
+import Home from "./pages/Home";
+import TodoListPage from "./pages/TodoListPage";
+import ProtectedRoute from "./ProtectedRoute";
+import Cookies from "universal-cookie";
 
-class App extends React.Component {
-  state = { todos: [], filteredTodos: [], selectedOption: "all" };
+class App extends Component {
+  state = { isAuthenticated: false, username: "" };
+  cookie = new Cookies();
 
-  componentDidUpdate(prevProps, prevState) {
-    // this.filterOptionHandler();
-    // In componentDidUpdate we can't call a function(that will rerender a component) without conditions.(error: maximum update depth exceeded)
-    if (
-      prevState.todos !== this.state.todos ||
-      prevState.selectedOption !== this.state.selectedOption
-    ) {
-      this.filterOptionHandler();
-    }
-  }
-  filterOptionHandler = () => {
-    switch (this.state.selectedOption) {
-      case "finished":
-        this.setState({
-          filteredTodos: this.state.todos.filter(item => item.checked === true),
-        });
-        break;
-      case "unfinished":
-        this.setState({
-          filteredTodos: this.state.todos.filter(
-            item => item.checked === false
-          ),
-        });
-        break;
-      default:
-        this.setState({ filteredTodos: this.state.todos });
-        break;
-    }
+  authHandler = () => {
+    this.setState({ isAuthenticated: true });
   };
-  onFilterChange = option => {
-    this.setState({ selectedOption: option });
+  logoutHandler = () => {
+    this.setState({ isAuthenticated: false });
+    this.cookie.remove("token");
   };
-  setTodos = items => {
-    //here 'items' is an array
-    // this.setState({ todos: [...this.state.todos, item] });
-    this.setState({ todos: items });
+  componentDidMount = () => {
+    const authCookie = this.cookie.get("token");
+    authCookie ? this.authHandler() : this.logoutHandler();
+    // authCookie ? console.log("isAuth") : console.log("no Auth");
+  };
+  setUsername = term => {
+    this.setState({ username: term });
   };
   render() {
     return (
       <div>
-        <TaskAdder
-          selectedFilter={this.state.selectedOption}
-          todos={this.state.todos}
-          onFilterChange={this.onFilterChange}
-          onSubmit={this.setTodos}
+        <Nav
+          username={this.state.username}
+          logoutHandler={this.logoutHandler}
+          isAuthenticated={this.state.isAuthenticated}
         />
-        <TodoList
-          setTodos={this.setTodos}
-          todos={this.state.todos}
-          filteredTodos={this.state.filteredTodos}
-        />
+        <Switch>
+          <Route path="/" component={Home} exact />
+          <Route path="/auth">
+            <AuthPage
+              isAuthenticated={this.state.isAuthenticated}
+              authHandler={this.authHandler}
+            />
+          </Route>
+          <ProtectedRoute auth={this.state.isAuthenticated} path="/todolist">
+            <TodoListPage setUsername={this.setUsername} />
+          </ProtectedRoute>
+        </Switch>
       </div>
     );
   }

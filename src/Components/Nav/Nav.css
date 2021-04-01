@@ -1,0 +1,35 @@
+.navbar {
+  position: fixed;
+  height: 45px;
+  width: 100%;
+  background-color: white;
+  display: flex;
+}
+.navbar ul {
+  list-style: none;
+  display: flex;
+}
+.navbar ul li {
+  padding: 10px 20px;
+}
+.navbar ul a {
+  text-decoration: none;
+  font-weight: bold;
+  color: #073b4c;
+  padding: 0px 4px;
+}
+.navbar ul li a:hover {
+  color: #118ab2;
+  border-bottom: 2px solid #118ab2;
+}
+.welcome {
+  position: absolute;
+  right: 30px;
+  top: 10px;
+  font-size: 17px;
+  font-weight: bold;
+  color: #118ab2;
+}
+.username {
+  color: #073b4c;
+}

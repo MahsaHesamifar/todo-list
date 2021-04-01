@@ -1,7 +1,9 @@
+import axios from "axios";
 import React from "react";
 import "./TaskAdder.css";
 
 class TaskAdder extends React.Component {
+  state = { taskInput: "" };
   //event handler
   onFilterChange = e => {
     console.log(e.target.value);
@@ -11,22 +13,44 @@ class TaskAdder extends React.Component {
   onInputChange = e => {
     this.setState({ taskInput: e.target.value });
   };
-  onFormSubmit = e => {
+  onFormSubmit = async e => {
     e.preventDefault();
     // this.props.onSubmit({
     //   taskTitle: this.state.taskInput,
     //   checked: false,
     //   id: Math.random() * 100,
     // });
-    this.props.onSubmit([
-      ...this.props.todos,
-      {
-        taskTitle: this.state.taskInput,
-        checked: false,
-        id: Math.random() * 100,
-      },
-    ]);
-    this.setState({ taskInput: "" });
+    if (this.state.taskInput === "") {
+      return alert("No task added!");
+    }
+    try {
+      const submitTaskData = await axios.post(
+        "http://localhost:8000/api/v1/todos",
+        {
+          name: "todo",
+          description: this.state.taskInput,
+          isChecked: false,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${this.props.token}`,
+          },
+        }
+      );
+
+      console.log(submitTaskData.data.data._id);
+      this.props.onSubmit([
+        ...this.props.todos,
+        {
+          description: this.state.taskInput,
+          isChecked: false,
+          _id: submitTaskData.data.data._id,
+        },
+      ]);
+      this.setState({ taskInput: "" });
+    } catch (error) {
+      console.log(error.response);
+    }
   };
   render() {
     return (
