@@ -1,6 +1,7 @@
 import axios from "axios";
 import React from "react";
 import "./TaskAdder.css";
+import Url from "../../../Urls/Urls";
 
 class TaskAdder extends React.Component {
   state = { taskInput: "" };
@@ -25,7 +26,7 @@ class TaskAdder extends React.Component {
     }
     try {
       const submitTaskData = await axios.post(
-        "http://localhost:8000/api/v1/todos",
+        `${Url}/todos`,
         {
           name: "todo",
           description: this.state.taskInput,

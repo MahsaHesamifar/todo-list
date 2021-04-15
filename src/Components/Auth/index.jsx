@@ -3,6 +3,7 @@ import axios from "axios";
 import "./Auth.css";
 import { Redirect } from "react-router-dom";
 import Cookies from "universal-cookie";
+import Url from "../../Urls/Urls";
 
 class Auth extends Component {
   state = { loginFormShow: true };
@@ -15,10 +16,7 @@ class Auth extends Component {
       password: e.target[1].value,
     };
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/users/login/",
-        loginData
-      );
+      const response = await axios.post(`${Url}/users/login`, loginData);
       console.log(response);
       this.cookie.set("token", response.data.token);
       this.props.authHandler();
@@ -34,10 +32,7 @@ class Auth extends Component {
       password: e.target[2].value,
     };
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/users/signup/",
-        signupData
-      );
+      const response = await axios.post(`${Url}/users/signup/`, signupData);
       console.log(response);
       this.cookie.set("token", response.data.token);
       this.props.authHandler();

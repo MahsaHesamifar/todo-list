@@ -5,6 +5,7 @@ import TodoList from "./TodoList/TodoList";
 import "./TodoListApp.css";
 import Cookies from "universal-cookie";
 import axios from "axios";
+import Url from "../../Urls/Urls";
 
 class TodoListApp extends Component {
   state = { todos: [], filteredTodos: [], selectedOption: "all" };
@@ -12,14 +13,11 @@ class TodoListApp extends Component {
   token = this.cookies.get("token");
   componentDidMount = async () => {
     try {
-      const userData = await axios.get(
-        "http://localhost:8000/api/v1/users/me/",
-        {
-          headers: {
-            Authorization: `Bearer ${this.token}`,
-          },
-        }
-      );
+      const userData = await axios.get(`${Url}/users/me/`, {
+        headers: {
+          Authorization: `Bearer ${this.token}`,
+        },
+      });
       this.props.setUsername(userData.data.data.doc.username);
       this.getTodos();
     } catch (error) {
@@ -27,7 +25,7 @@ class TodoListApp extends Component {
     }
   };
   getTodos = async () => {
-    const userTodos = await axios.get("http://localhost:8000/api/v1/todos", {
+    const userTodos = await axios.get(`${Url}/todos`, {
       headers: {
         Authorization: `Bearer ${this.token}`,
       },

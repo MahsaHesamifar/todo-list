@@ -1,12 +1,13 @@
 import React from "react";
 import "./Todo.css";
 import axios from "axios";
+import Url from "../../../Urls/Urls";
 class Todo extends React.Component {
   // event handler
   deleteHandler = async () => {
     try {
       const deleteTodoData = await axios.delete(
-        `http://localhost:8000/api/v1/todos/${this.props.todo._id}`,
+        `${Url}/todos/${this.props.todo._id}`,
         {
           headers: {
             Authorization: `Bearer ${this.props.token}`,
@@ -26,7 +27,7 @@ class Todo extends React.Component {
   completeHandler = async () => {
     try {
       const checkItemData = await axios.patch(
-        `http://localhost:8000/api/v1/todos/${this.props.todo._id}`,
+        `${Url}/todos/${this.props.todo._id}`,
         { isChecked: !this.props.todo.isChecked },
         {
           headers: {
